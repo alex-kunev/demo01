@@ -1,0 +1,11 @@
+pipeline {
+    agent any
+    stages {
+        stage ('test') {
+            steps {
+                sh 'ECHO Here is a simple Pipeline'
+            }
+        }
+    }
+    
+}
