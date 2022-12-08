@@ -21,7 +21,7 @@ data "aws_security_group" "tiger01" {
 
 # DEFINE THE RESOURCES:
 
-resource "aws_instance" "app_server" {
+resource "aws_instance" "app_server_1" {
   ami           = var.image_id
   instance_type = "t2.micro"
 
@@ -30,10 +30,10 @@ resource "aws_instance" "app_server" {
   }
   key_name               = "key1"
   vpc_security_group_ids = [data.aws_security_group.tiger01.id]
-  user_data = file("scripts-docker.sh")
+  user_data = file("scripts-jenkins.sh")
 }
 
-resource "aws_instance" "app_server" {
+resource "aws_instance" "app_server_2" {
   ami           = var.image_id
   instance_type = "t2.micro"
 
@@ -53,11 +53,21 @@ output "tiger01" {
 }
 
 output "instance_id" {
-  description = "ID of the EC2 instance"
-  value       = aws_instance.app_server.id
+  description = "ID of the Jenkins instance"
+  value       = aws_instance.app_server_1.id
 }
 
 output "instance_public_ip" {
-  description = "Public IP address of the EC2 instance"
-  value       = aws_instance.app_server.public_ip
+  description = "Public IP address of the Jenkins instance"
+  value       = aws_instance.app_server_1.public_ip
+}
+
+output "instance_i_2" {
+  description = "ID of the Docker instance"
+  value       = aws_instance.app_server_2.id
+}
+
+output "instance_public_ip_2" {
+  description = "Public IP address of the Docker instance"
+  value       = aws_instance.app_server_2.public_ip
 }
